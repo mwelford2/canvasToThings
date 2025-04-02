@@ -1,6 +1,8 @@
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -10,8 +12,5 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
       - name: Run script
-        run: python your_script.py
+        run: python main.py
