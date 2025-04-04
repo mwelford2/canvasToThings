@@ -60,7 +60,7 @@ def getAssignments():
         for stick in cur_ass:
             # print(stick['name'], stick['due_at'], end='  UPDATED DATE: ')
             if not stick['due_at'] is None:
-                due_at = datetime.strptime(str(stick['due_at']), '%Y-%m-%dT%H:%M:%SZ') - timedelta(hours=5)
+                due_at = datetime.strptime(str(stick['due_at']), '%Y-%m-%dT%H:%M:%SZ') - timedelta(hours=4)
             else: due_at = 'No due date'
             # print(due_at)
             class_name = id_to_name(c)
