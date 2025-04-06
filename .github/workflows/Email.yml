@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '* * * * 0'  # Runs every Sunday
+    - cron: '0 * * * 0'  # Runs every Sunday
   workflow_dispatch:  # Allows manual triggering
 
 jobs:
