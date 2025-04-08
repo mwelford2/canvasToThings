@@ -80,6 +80,7 @@ if __name__ == '__main__':
     with open('weekRuns.txt','r+') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read())
         numRuns += 1
+        w.truncate(0) # clear weekRuns file
         w.write(str(numRuns))
-        t.write(str(numRuns))
+        t.write(str(numRuns)) # should replace file contents
     print("Canvas To Things ran ", datetime.now())
