@@ -78,9 +78,9 @@ def getAssignments():
 if __name__ == '__main__':
     getAssignments()
     with open('weekRuns.txt','r+') as w, open('totalRuns.txt', 'w') as t:
-        numRuns = int(w.read())
+        numRuns = int(w.read().strip())
         numRuns += 1
-        w.truncate(0) # clear weekRuns file
+        w.truncate() # clear weekRuns file
         w.write(str(numRuns))
         t.write(str(numRuns)) # should replace file contents
     print("Canvas To Things ran ", datetime.now())
