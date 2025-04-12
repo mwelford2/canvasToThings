@@ -82,5 +82,5 @@ if __name__ == '__main__':
         numRuns += 1
         t.write(str(numRuns)) # should replace file contents
     with open('weekRuns.txt', 'w') as w:
-        w.write(numRuns)
+        w.write(str(numRuns))
     print("Canvas To Things ran ", datetime.now())
