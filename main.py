@@ -77,10 +77,10 @@ def getAssignments():
                 send_email(f'Assignment: {stick['name']} added', class_name + '\n' + str(due_at) + '\n' + 'Sent from mac', "canvastothings@gmail.com")
 if __name__ == '__main__':
     getAssignments()
-    with open('weekRuns.txt','r+') as w, open('totalRuns.txt', 'w') as t:
+    with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
         numRuns += 1
-        w.truncate() # clear weekRuns file
-        w.write(str(numRuns))
         t.write(str(numRuns)) # should replace file contents
+    with open('weekRuns.txt', 'w') as w:
+        w.write(numRuns)
     print("Canvas To Things ran ", datetime.now())
