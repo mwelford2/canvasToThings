@@ -48,7 +48,7 @@ def id_to_name(class_id):
 
 def getAssignments():
 
-    classes = {524214, 525732, 525172, 525138, 526338, 513638, 528781} # Physics 1 + Lab, Anime, Econ food & you, First year engineering, data structures, eng design society
+    classes = {} # 
 
     with open('assignments.txt', 'r') as f:
         content = f.read()
