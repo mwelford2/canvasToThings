@@ -48,7 +48,8 @@ def id_to_name(class_id):
 
 def getAssignments():
 
-    classes = {} # 
+    with open("classIDs.txt", 'r') as c:
+        classes = [int(line.strip()) for line in c]
 
     with open('assignments.txt', 'r') as f:
         content = f.read()
