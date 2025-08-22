@@ -5,11 +5,10 @@ from datetime import datetime
 from datetime import timedelta
 from email.message import EmailMessage
 
-api_key = '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'
-api_password = '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'
-smtp_url = 'smtp.sendgrid.net'
+gmail_pass = 'mawfuqllybzcbfoc'
+smtp_url = 'smtp.gmail.com'
 smtp_port = 465
-fromEmail = "canvastothings@gmail.com"
+sender = "canvastothings@gmail.com"
 
 CANVAS_API_TOKEN = "1016~PEAmwYr7G9WehY9T8NJmYYEC9UXw3r8TD9GLYceUwFzvcw7cYNxyuWATrF7Fr4NE"
 CANVAS_DOMAIN = "ufl.instructure.com"
@@ -31,7 +30,7 @@ def send_email(subject, body, to):
 
     with smtplib.SMTP_SSL(smtp_url, smtp_port) as smtp:
         # smtp.starttls()
-        smtp.login("apikey", api_key)
+        smtp.login(sender, gmail_pass)
         smtp.send_message(email)
         # print("Sent successfully!")
 
