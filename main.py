@@ -74,7 +74,7 @@ def getAssignments():
                     f.write(str(stick['id']))
                     f.close()
                 send_email(stick['name'], class_name + '\n' + str(due_at) + '\n' + 'Sent from git', THINGS_EMAIL)
-                send_email(f'Assignment: {stick['name']} added', class_name + '\n' + str(due_at) + '\n' + 'Sent from mac', "canvastothings@gmail.com")
+                send_email(f"Assignment: {stick['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
 if __name__ == '__main__':
     getAssignments()
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
