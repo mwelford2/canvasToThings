@@ -25,7 +25,7 @@ def send_email(subject, body, to):
     email = EmailMessage()
     email['Subject'] = subject
     email['To'] = to
-    email['From'] = fromEmail
+    email['From'] = sender
     email.set_content(body)
 
     with smtplib.SMTP_SSL(smtp_url, smtp_port) as smtp:
