@@ -35,7 +35,7 @@ jobs:
 
       - name: Run your Python script
         run: |
-          python main.py
+          python main.py > output.log 2>&1
 
       - name: Commit and push changes
         run: |
