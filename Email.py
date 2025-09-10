@@ -1,6 +1,6 @@
 from main import send_email
 
-def run_emailer:
+def run_emailer():
     with open('weekRuns.txt', 'r') as w:
         weekRuns = int(w.read())
     with open('weekRuns.txt', 'w') as w:
