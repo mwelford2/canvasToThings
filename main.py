@@ -46,7 +46,8 @@ def id_to_name(class_id):
     pass
 
 def getAssignments():
-
+    numAdded = 0
+    
     with open("classIDs.txt", 'r') as c:
         classes = [int(line.strip()) for line in c]
 
@@ -75,8 +76,11 @@ def getAssignments():
                     f.close()
                 send_email(stick['name'], class_name + '\n' + str(due_at) + '\n' + 'Sent from git', THINGS_EMAIL)
                 send_email(f"Assignment: {stick['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
+                numAdded+=1
+    return numAdded
 if __name__ == '__main__':
-    getAssignments()
+    num = getAssignments()
+    send_email(f"Added {num} assignments", "", "mwelford2@gmail.com")
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
         numRuns += 1
