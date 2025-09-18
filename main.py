@@ -45,7 +45,7 @@ def id_to_name(class_id):
     # return JSON['name']
     pass
 
-def getAssignments():
+def get_assignments():
     num_added = 0
     name_added = []
     
@@ -81,7 +81,7 @@ def getAssignments():
                 num_added+=1
     return num_added, name_added
 if __name__ == '__main__':
-    num, names = getAssignments()
+    num, names = get_assignments()
     send_email(f"Added {num} assignments", f"Added: {str(names).strip("[]")}", "mwelford2@gmail.com")
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
