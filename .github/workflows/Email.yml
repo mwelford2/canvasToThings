@@ -1,3 +1,5 @@
+name: Weekly Status Emailer
+
 on:
   schedule:
     - cron: '0 0 * * 0'  # Runs every Sunday
