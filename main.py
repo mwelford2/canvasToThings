@@ -58,7 +58,8 @@ def get_assignments():
 
     for c in classes:
         req = requests.get(api_url+f"courses/{c}/assignments?bucket=future", headers=headers)
-        cur_ass = json.loads(req.text)
+        req2 = requests.get(api_url+f"courses/{c}/assignments?bucket=upcoming", headers=headers)
+        cur_ass = json.loads(req.text) + json.loads(req2.text)
         for stick in cur_ass:
             # print(stick['name'], stick['due_at'], end='  UPDATED DATE: ')
             if not stick['due_at'] is None:
@@ -82,7 +83,8 @@ def get_assignments():
     return num_added, name_added
 if __name__ == '__main__':
     num, names = get_assignments()
-    send_email(f"Added {num} assignments", f"Added: {str(names).strip("[]")}", "mwelford2@gmail.com")
+    n = str(names).strip("[]")
+    send_email(f"Added {num} assignments", f"Added: {n}", "mwelford2@gmail.com")
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
         numRuns += 1
