@@ -72,7 +72,7 @@ def get_assignments():
             # print(content.find('6268132'))
             if content.find(str(stick['id'])) == -1: # make sure assignment hasn't been processed before
                 print("adding assignment", stick['name'])
-                if "Homework Board" in str(stick['name']) and c == 540816: # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE IN THE FUTURE
+                if "Homework Board" in str(stick['name']) and c == 540816: # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
                     add_reflection_post(class_name, due_at, stick['name'])
                 with open('assignments.txt', 'a') as f:
                     f.write('\n')
