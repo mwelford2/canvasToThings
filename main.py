@@ -80,7 +80,7 @@ def get_assignments():
                     f.close()
                 send_email(stick['name'], class_name + '\n' + str(due_at), THINGS_EMAIL)
                 # send_email(f"Assignment: {stick['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
-                name_added.append(stick['name'])
+                name_added.append('' + stick['name'] + ' : ' + class_name + ' ' + str(due_at))
                 num_added+=1
     return num_added, name_added
 
