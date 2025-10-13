@@ -99,7 +99,7 @@ if __name__ == '__main__':
     for n in names:
         name_str += n + '\n'
     with open('assignmentsAdded.txt','w') as a:
-        a.write(str(n))
+        a.write(name_str)
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
         numRuns += 1
