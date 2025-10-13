@@ -1,1 +1,1 @@
-MATLAB Assignment 3 : MAS3114: Computational Linear Algebra, Fall 2025 2025-10-19 23:59:00
+MATLAB Assignment 3|MAS3114: Computational Linear Algebra, Fall 2025|2025-10-19 23:59:00
