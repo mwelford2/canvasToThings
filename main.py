@@ -98,7 +98,7 @@ if __name__ == '__main__':
     name_str = "{\n"
     for n in names:
         cur = n.split('|')
-        name_str += f"    {cur[0]}: {cur[1]}|{cur[2]}\n"
+        name_str += f"    \"{cur[0]}\": \"{cur[1]}|{cur[2]}\"\n"
     name_str+="}"
     with open('assignmentsAdded.txt','w') as a:
         a.write(name_str)
