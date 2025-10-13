@@ -95,9 +95,11 @@ if __name__ == '__main__':
     num, names = get_assignments()
     n = str(names).strip("[]")
     send_email(f"Added {num} assignments", f"Added: {n}", "mwelford2@gmail.com")
-    name_str = ""
+    name_str = "{\n"
     for n in names:
-        name_str += n + '\n'
+        cur = n.split('|')
+        name_str += f"    {cur[0]}: {cur[1]}|{cur[2]}\n"
+    name_str+="}"
     with open('assignmentsAdded.txt','w') as a:
         a.write(name_str)
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
