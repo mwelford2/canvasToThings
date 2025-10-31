@@ -45,6 +45,22 @@ def id_to_name(class_id):
     # return JSON['name']
     pass
 
+
+def get_time_subtraction(assignments):
+    due_date_str = ""
+    for assignment in assignments:
+        if assignment['due_at'] is None:
+            continue
+        due_date_str = assignment['due_at']
+        break
+    due_date = datetime.strptime(due_date_str, "%Y-%m-%dT%H:%M:%SZ")
+    total_hours = 0
+    while due_date.hour != 23:
+        due_date = due_date - timedelta(hours=1)
+        total_hours += 1
+    return total_hours
+
+
 def get_assignments():
     num_added = 0
     name_added = []
@@ -59,28 +75,29 @@ def get_assignments():
     for c in classes:
         req = requests.get(api_url+f"courses/{c}/assignments?bucket=future", headers=headers)
         req2 = requests.get(api_url+f"courses/{c}/assignments?bucket=upcoming", headers=headers)
-        cur_ass = json.loads(req.text) + json.loads(req2.text) # join upcoming and future assignments in one dict
-        for stick in cur_ass:
-            # print(stick['name'], stick['due_at'], end='  UPDATED DATE: ')
-            if not stick['due_at'] is None:
-                due_at = datetime.strptime(str(stick['due_at']), '%Y-%m-%dT%H:%M:%SZ') - timedelta(hours=4)
+        all_ass = json.loads(req.text) + json.loads(req2.text) # join upcoming and future assignments in one dict
+        time_diff = get_time_subtraction(all_ass)
+        for cur_ass in all_ass:
+            # print(cur_ass['name'], cur_ass['due_at'], end='  UPDATED DATE: ')
+            if not cur_ass['due_at'] is None:
+                due_at = datetime.strptime(cur_ass['due_at'], "%Y-%m-%dT%H:%M:%SZ") - timedelta(hours=time_diff)
             else: due_at = 'No due date'
             # print(due_at)
             class_name = id_to_name(c)
             # print(ass)
-            # print(stick['id'])
+            # print(cur_ass['id'])
             # print(content.find('6268132'))
-            if content.find(str(stick['id'])) == -1: # make sure assignment hasn't been processed before
-                print("adding assignment", stick['name'])
-                if "Homework Board" in str(stick['name']) and c == 540816: # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
-                    add_reflection_post(class_name, due_at, stick['name'])
+            if content.find(str(cur_ass['id'])) == -1: # make sure assignment hasn't been processed before
+                print("adding assignment", cur_ass['name'])
+                if "Homework Board" in str(cur_ass['name']) and c == 540816: # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
+                    add_reflection_post(class_name, due_at, cur_ass['name'])
                 with open('assignments.txt', 'a') as f:
                     f.write('\n')
-                    f.write(str(stick['id']))
+                    f.write(str(cur_ass['id']))
                     f.close()
-                send_email(stick['name'], class_name + '\n' + str(due_at), THINGS_EMAIL)
-                # send_email(f"Assignment: {stick['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
-                name_added.append('' + stick['name'] + '|' + class_name + '|' + str(due_at))
+                send_email(cur_ass['name'], class_name + '\n' + str(due_at), THINGS_EMAIL)
+                # send_email(f"Assignment: {cur_ass['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
+                name_added.append('' + cur_ass['name'] + '|' + class_name + '|' + str(due_at))
                 num_added+=1
     return num_added, name_added
 
