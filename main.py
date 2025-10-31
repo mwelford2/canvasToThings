@@ -45,7 +45,8 @@ def id_to_name(class_id):
     # return JSON['name']
     pass
 
-
+# IMPORTANT: THIS CODE ONLY WORKS PROPERLY ASSUMING ALL ASSIGNMENTS ARE DUE AT 11:59 PM.
+# IMPORTANT: SHOULD THAT NOT BE THE CASE THIS FUNCTION MUST BE CHANGED.
 def get_time_subtraction(assignments):
     due_date_str = ""
     for assignment in assignments:
