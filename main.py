@@ -46,7 +46,6 @@ def id_to_name(class_id):
     pass
 
 # IMPORTANT: THIS CODE ONLY WORKS PROPERLY ASSUMING ALL ASSIGNMENTS ARE DUE AT 11:59 PM.
-# IMPORTANT: SHOULD THAT NOT BE THE CASE THIS FUNCTION MUST BE CHANGED.
 def get_time_subtraction(assignments):
     due_date_str = ""
     for assignment in assignments:
@@ -54,12 +53,24 @@ def get_time_subtraction(assignments):
             continue
         due_date_str = assignment['due_at']
         break
+    if due_date_str == "":
+        return "No due date"
     due_date = datetime.strptime(due_date_str, "%Y-%m-%dT%H:%M:%SZ")
     total_hours = 0
     while due_date.hour != 23:
         due_date = due_date - timedelta(hours=1)
         total_hours += 1
     return total_hours
+
+
+def remove_duplicates(all_ass):
+    unique_assignments = []
+    processed_assignment_ids = []
+    for ass in all_ass:
+        if ass['id'] not in processed_assignment_ids:
+            unique_assignments.append(ass)
+            processed_assignment_ids.append(ass['id'])
+    return unique_assignments
 
 
 def get_assignments():
@@ -77,6 +88,7 @@ def get_assignments():
         req = requests.get(api_url+f"courses/{c}/assignments?bucket=future", headers=headers)
         req2 = requests.get(api_url+f"courses/{c}/assignments?bucket=upcoming", headers=headers)
         all_ass = json.loads(req.text) + json.loads(req2.text) # join upcoming and future assignments in one dict
+        # all_ass = remove_duplicates(all_ass)
         time_diff = get_time_subtraction(all_ass)
         for cur_ass in all_ass:
             # print(cur_ass['name'], cur_ass['due_at'], end='  UPDATED DATE: ')
@@ -88,11 +100,12 @@ def get_assignments():
             # print(ass)
             # print(cur_ass['id'])
             # print(content.find('6268132'))
-            if content.find(str(cur_ass['id'])) == -1: # make sure assignment hasn't been processed before
+            if str(cur_ass['id']) not in content: # make sure assignment hasn't been processed before
                 print("adding assignment", cur_ass['name'])
-                if "Homework Board" in str(cur_ass['name']) and c == 540816: # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
+                # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
+                if "Homework Board" in str(cur_ass['name']) and c == 540816:
                     add_reflection_post(class_name, due_at, cur_ass['name'])
-                with open('assignments.txt', 'a') as f:
+                with open('assignments.txt', 'a') as f, open ('assignments.txt', 'r') as g:
                     f.write('\n')
                     f.write(str(cur_ass['id']))
                     f.close()
