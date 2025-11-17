@@ -11,7 +11,11 @@ permissions:
 jobs:
   run-script:
     runs-on: ubuntu-latest
-
+    env:
+      CANVAS_API_KEY: ${{ secrets.CANVAS_API_KEY }}
+      GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+      SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }
+      THINGS_EMAIL: ${{ secrets.THINGS_EMAIL }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -30,11 +34,6 @@ jobs:
       - name: Run Python script
         run: |
           python main.py > output.log 2>&1
-        env:
-          CANVAS_API_KEY: ${{ secrets.CANVAS_API_KEY }}
-          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
-          THINGS_EMAIL: ${{ secrets.THINGS_EMAIL }}
 
       - name: Commit and push changes
         run: |
