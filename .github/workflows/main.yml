@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Python script
         run: |
-          python main.py > output.log 2>&1
+          python main.py
 
       - name: Commit and push changes
         run: |
