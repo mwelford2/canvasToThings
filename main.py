@@ -9,7 +9,7 @@ from email.message import EmailMessage
 gmail_pass = os.getenv("GMAIL_PASSWORD")
 smtp_url = "smtp.gmail.com"
 smtp_port = 465
-sender = os.getevn("SENDER_EMAIL")
+sender = os.getenv("SENDER_EMAIL")
 
 CANVAS_API_TOKEN = os.getenv("CANVAS_API_KEY")
 CANVAS_DOMAIN = "ufl.instructure.com"
