@@ -1,20 +1,21 @@
 import smtplib
 import requests
 import json
+import os
 from datetime import datetime
 from datetime import timedelta
 from email.message import EmailMessage
 
-gmail_pass = 'mawfuqllybzcbfoc'
-smtp_url = 'smtp.gmail.com'
+gmail_pass = os.getenv("GMAIL_PASSWORD")
+smtp_url = "smtp.gmail.com"
 smtp_port = 465
-sender = "canvastothings@gmail.com"
+sender = os.getevn("SENDER_EMAIL")
 
-CANVAS_API_TOKEN = "1016~PEAmwYr7G9WehY9T8NJmYYEC9UXw3r8TD9GLYceUwFzvcw7cYNxyuWATrF7Fr4NE"
+CANVAS_API_TOKEN = os.getenv("CANVAS_API_KEY")
 CANVAS_DOMAIN = "ufl.instructure.com"
 api_url = f"https://{CANVAS_DOMAIN}/api/v1/"
 
-THINGS_EMAIL = "add-to-things-nelcms64mpl4syg7p44@things.email"
+THINGS_EMAIL = os.getenv("THINGS_EMAIL")
 
 headers = {
     'Authorization': f'Bearer {CANVAS_API_TOKEN}',
