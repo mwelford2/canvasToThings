@@ -94,13 +94,11 @@ def get_assignments():
             # print(content.find('6268132'))
             if str(cur_ass['id']) not in content: # make sure assignment hasn't been processed before
                 print("adding assignment", cur_ass['name'])
-                # IMPORTANT: SPECIFIC FOR AEB2280, REMOVE FOR FUTURE CLASSES
-                if "Homework Board" in str(cur_ass['name']) and c == 540816:
-                    add_reflection_post(class_name, due_at, cur_ass['name'])
-                with open('assignments.txt', 'a') as f, open ('assignments.txt', 'r') as g:
+                with open('assignments.txt', 'a') as f, open ('assignments.txt', 'r') as g, open ('assignmentsAdded.txt', 'a') as a:
                     f.write('\n')
                     f.write(str(cur_ass['id']))
                     f.close()
+                    a.write(f"\n\"{cur_ass['name']}\" : \"{class_name}|{due_at}\"")
                 send_email(cur_ass['name'], class_name + '\n' + str(due_at), THINGS_EMAIL)
                 # send_email(f"Assignment: {cur_ass['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
                 name_added.append('' + cur_ass['name'] + '|' + class_name + '|' + str(due_at))
@@ -115,17 +113,23 @@ def add_reflection_post(class_name, due_at, board_name):
     return name
 
 if __name__ == '__main__':
+    with open('assignmentsAdded.txt','w') as a:
+        a.write("{")
+        a.close()
     num, names = get_assignments()
+    with open('assignmentsAdded.txt','a') as a:
+        a.write("\n}")
+        a.close()
     n = str(names).strip("[]")
     send_email(f"Added {num} assignments", f"Added: {n}", "mwelford2@gmail.com")
-    name_str = "{\n"
+    name_str = "{"
     for n in names:
         cur = n.split('|')
         name_str += f"    \"{cur[0]}\": \"{cur[1]}|{cur[2]}\",\n"
     name_str = name_str[:-2]
     name_str+="\n}"
-    with open('assignmentsAdded.txt','w') as a:
-        a.write(name_str)
+    # with open('assignmentsAdded.txt','w') as a:
+    #     a.write(name_str)
     with open('weekRuns.txt','r') as w, open('totalRuns.txt', 'w') as t:
         numRuns = int(w.read().strip())
         numRuns += 1
