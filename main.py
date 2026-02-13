@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 from datetime import timedelta
 from email.message import EmailMessage
+from zoneinfo import ZoneInfo
 
 gmail_pass = os.getenv("GMAIL_PASSWORD")
 smtp_url = "smtp.gmail.com"
@@ -46,22 +47,15 @@ def id_to_name(class_id):
     # return JSON['name']
     pass
 
-# IMPORTANT: THIS CODE ONLY WORKS PROPERLY ASSUMING ALL ASSIGNMENTS ARE DUE AT 11:59 PM.
-def get_time_subtraction(assignments):
-    due_date_str = ""
-    for assignment in assignments:
-        if assignment['due_at'] is None:
-            continue
-        due_date_str = assignment['due_at']
-        break
-    if due_date_str == "":
-        return "No due date"
-    due_date = datetime.strptime(due_date_str, "%Y-%m-%dT%H:%M:%SZ")
-    total_hours = 0
-    while due_date.hour != 23:
-        due_date = due_date - timedelta(hours=1)
-        total_hours += 1
-    return total_hours
+UTC = ZoneInfo("UTC")
+EASTERN_TZ = ZoneInfo("America/New_York")
+
+
+def parse_due_at_eastern(due_at):
+    if due_at is None:
+        return 'No due date'
+    due_at_utc = datetime.strptime(due_at, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=UTC)
+    return due_at_utc.astimezone(EASTERN_TZ)
 
 
 def remove_duplicates(all_ass):
@@ -90,12 +84,9 @@ def get_assignments():
         req2 = requests.get(api_url+f"courses/{c}/assignments?bucket=upcoming", headers=headers)
         all_ass = json.loads(req.text) + json.loads(req2.text) # join upcoming and future assignments in one dict
         # all_ass = remove_duplicates(all_ass)
-        time_diff = get_time_subtraction(all_ass)
         for cur_ass in all_ass:
             # print(cur_ass['name'], cur_ass['due_at'], end='  UPDATED DATE: ')
-            if not cur_ass['due_at'] is None:
-                due_at = datetime.strptime(cur_ass['due_at'], "%Y-%m-%dT%H:%M:%SZ") - timedelta(hours=time_diff)
-            else: due_at = 'No due date'
+            due_at = parse_due_at_eastern(cur_ass['due_at'])
             # print(due_at)
             class_name = id_to_name(c)
             # print(ass)
