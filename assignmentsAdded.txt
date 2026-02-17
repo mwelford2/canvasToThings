@@ -1,2 +1,7 @@
-
+{
+  "Lecture Quiz 18": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-06 23:59:00-05:00",
+  "Lecture Quiz 19": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-09 23:59:00-04:00",
+  "L14 section 4.4": "MAP2302 - Elem Diff Equations Spring 2026|2026-02-20 23:59:00-05:00",
+  "L15 section 4.5": "MAP2302 - Elem Diff Equations Spring 2026|2026-02-23 23:59:00-05:00",
+  "Quiz 5 (L14-15)": "MAP2302 - Elem Diff Equations Spring 2026|2026-02-23 23:59:00-05:00"
 }
