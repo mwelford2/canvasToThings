@@ -71,6 +71,7 @@ def remove_duplicates(all_ass):
 def get_assignments():
     num_added = 0
     name_added = []
+    assignments_added = {}
     
     with open("classIDs.txt", 'r') as c:
         classes = [int(line.strip()) for line in c]
@@ -94,16 +95,16 @@ def get_assignments():
             # print(content.find('6268132'))
             if str(cur_ass['id']) not in content: # make sure assignment hasn't been processed before
                 print("adding assignment", cur_ass['name'])
-                with open('assignments.txt', 'a') as f, open ('assignments.txt', 'r') as g, open ('assignmentsAdded.txt', 'a') as a:
+                with open('assignments.txt', 'a') as f:
                     f.write('\n')
                     f.write(str(cur_ass['id']))
-                    f.close()
-                    a.write(f"\n\"{cur_ass['name']}\" : \"{class_name}|{due_at}\"")
+
+                assignments_added[cur_ass['name']] = f"{class_name}|{due_at}"
                 send_email(cur_ass['name'], class_name + '\n' + str(due_at), THINGS_EMAIL)
                 # send_email(f"Assignment: {cur_ass['name']} added", class_name + "\n" + str(due_at) + "\n" + "Sent from mac", "canvastothings@gmail.com")
                 name_added.append('' + cur_ass['name'] + '|' + class_name + '|' + str(due_at))
                 num_added+=1
-    return num_added, name_added
+    return num_added, name_added, assignments_added
 
 
 def add_reflection_post(class_name, due_at, board_name):
@@ -113,13 +114,10 @@ def add_reflection_post(class_name, due_at, board_name):
     return name
 
 if __name__ == '__main__':
+    num, names, assignments_added = get_assignments()
     with open('assignmentsAdded.txt','w') as a:
-        a.write("{")
-        a.close()
-    num, names = get_assignments()
-    with open('assignmentsAdded.txt','a') as a:
-        a.write("\n}")
-        a.close()
+        a.write(json.dumps(assignments_added, indent=2, ensure_ascii=False))
+
     n = str(names).strip("[]")
     send_email(f"Added {num} assignments", f"Added: {n}", "mwelford2@gmail.com")
     name_str = "{"
