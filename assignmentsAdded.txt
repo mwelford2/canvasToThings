@@ -1,4 +1,1 @@
-{
-  "L16 section 4.6": "MAP2302 - Elem Diff Equations Spring 2026|2026-02-25 23:59:00-05:00",
-  "PE-Prelab": "PHY2049L - Lab for PHY 2049|2026-03-12 07:00:00-04:00"
-}
+{}
