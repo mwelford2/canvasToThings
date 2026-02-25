@@ -1,3 +1,4 @@
 {
-  "Homework 5": "MHF3202 - Sets & Logic|2026-02-27 23:59:59-05:00"
+  "Lecture Quiz 21": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-13 23:59:00-04:00",
+  "Practice Exam 2": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-01 23:59:00-05:00"
 }
