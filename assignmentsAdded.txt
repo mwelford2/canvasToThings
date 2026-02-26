@@ -1,4 +1,3 @@
 {
-  "Lecture Quiz 21": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-13 23:59:00-04:00",
-  "Practice Exam 2": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-01 23:59:00-05:00"
+  "HW12 Spring 2026 Chapter 34.3-34.6, 35.1-35.2": "PHY2049 - Physics With Calc 2|2026-04-21 22:00:00-04:00"
 }
