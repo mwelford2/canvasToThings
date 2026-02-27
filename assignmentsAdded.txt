@@ -1,3 +1,4 @@
 {
-  "HW12 Spring 2026 Chapter 34.3-34.6, 35.1-35.2": "PHY2049 - Physics With Calc 2|2026-04-21 22:00:00-04:00"
+  "Lecture Quiz 22": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-23 23:59:00-04:00",
+  "PE-Report": "PHY2049L - Lab for PHY 2049|No due date"
 }
