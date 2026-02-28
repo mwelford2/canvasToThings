@@ -1,4 +1,1 @@
-{
-  "Lecture Quiz 22": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-23 23:59:00-04:00",
-  "PE-Report": "PHY2049L - Lab for PHY 2049|No due date"
-}
+{}
