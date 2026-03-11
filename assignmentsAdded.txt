@@ -1,5 +1,3 @@
 {
-  "Module 9: Daily Scrum Weekly Report": "CEN3031 - Intro Software Engr|2026-03-17 23:59:59-04:00",
-  "Module 9: Software Tests": "CEN3031 - Intro Software Engr|2026-03-17 23:59:59-04:00",
-  "Module 9: In Class Daily Scrum": "CEN3031 - Intro Software Engr|2026-03-10 16:45:00-04:00"
+  "Lecture Quiz 25": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-03 23:59:00-04:00"
 }
