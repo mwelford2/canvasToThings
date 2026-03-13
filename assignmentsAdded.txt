@@ -1,3 +1,8 @@
 {
-  "Quiz 2": "PHY2049 - Physics With Calc 2|No due date"
+  "Lecture Quiz 26": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-06 23:59:00-04:00",
+  "Module 11: Sprint Retrospective 1": "CEN3031 - Intro Software Engr|2026-03-31 23:59:59-04:00",
+  "Module 11: Makeup for in-class assignment - The Challenge of Good Enough Software": "CEN3031 - Intro Software Engr|2026-04-21 23:59:59-04:00",
+  "Module 11: Individual Contribution Report 2": "CEN3031 - Intro Software Engr|2026-03-31 23:59:59-04:00",
+  "Module 11: Peer Evaluation 2": "CEN3031 - Intro Software Engr|2026-03-31 23:59:59-04:00",
+  "PF-Prelab": "PHY2049L - Lab for PHY 2049|2026-03-26 07:00:00-04:00"
 }
