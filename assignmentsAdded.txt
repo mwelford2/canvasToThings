@@ -1,3 +1,4 @@
 {
-  "Lecture Quiz 27": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-10 23:59:00-04:00"
+  "Exam 2": "MHF3202 - Sets & Logic|No due date",
+  "Exam 2 Corrections": "MHF3202 - Sets & Logic|2026-03-27 23:59:59-04:00"
 }
