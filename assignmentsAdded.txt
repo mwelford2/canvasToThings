@@ -1,1 +1,4 @@
-{}
+{
+  "L24 section 7.9": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-27 23:59:00-04:00",
+  "Quiz 8 (L22-24)": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-27 23:59:00-04:00"
+}
