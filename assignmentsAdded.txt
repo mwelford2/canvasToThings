@@ -1,1 +1,5 @@
-{}
+{
+  "Quiz 3": "PHY2049 - Physics With Calc 2|No due date",
+  "Exam 2": "PHY2049 - Physics With Calc 2|2026-03-31 20:20:00-04:00",
+  "Lecture Quiz 28": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-15 23:59:00-04:00"
+}
