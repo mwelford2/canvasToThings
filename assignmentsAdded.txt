@@ -1,3 +1,6 @@
 {
-  "Practice Exam 3": "MAP2302 - Elem Diff Equations Spring 2026|2026-03-31 23:59:00-04:00"
+  "Lecture Quiz 29": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-20 23:59:00-04:00",
+  "PF-Report": "PHY2049L - Lab for PHY 2049|No due date",
+  "TE-Prelab  ": "PHY2049L - Lab for PHY 2049|2026-04-02 07:00:00-04:00",
+  "TE-Report": "PHY2049L - Lab for PHY 2049|No due date"
 }
