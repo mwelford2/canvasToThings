@@ -1,1 +1,4 @@
-{}
+{
+  "Homework 8": "MHF3202 - Sets & Logic|2026-04-03 23:59:59-04:00",
+  "Quiz 4": "PHY2049 - Physics With Calc 2|No due date"
+}
