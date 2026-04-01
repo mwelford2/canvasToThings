@@ -1,4 +1,5 @@
 {
-  "Homework 8": "MHF3202 - Sets & Logic|2026-04-03 23:59:59-04:00",
-  "Quiz 4": "PHY2049 - Physics With Calc 2|No due date"
+  "L26 section 8.2": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-06 23:59:00-04:00",
+  "Module 10: Daily Scrum Weekly Report": "CEN3031 - Intro Software Engr|2026-04-07 23:59:59-04:00",
+  "Mini Project": "CEN3031 - Intro Software Engr|2026-04-07 23:59:59-04:00"
 }
