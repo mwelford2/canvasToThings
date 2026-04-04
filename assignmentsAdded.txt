@@ -1,9 +1,1 @@
-{
-  "Module 13: Daily Scrum Weekly Report (Sprint 2: week 2)": "CEN3031 - Intro Software Engr|2026-04-14 23:59:59-04:00",
-  "Module 14: Daily Scrum Weekly Report (Sprint2: Week 3)": "CEN3031 - Intro Software Engr|2026-04-21 23:59:59-04:00",
-  "Module 13: In Class Daily Scrum (Tuesday)": "CEN3031 - Intro Software Engr|2026-04-07 16:50:00-04:00",
-  "Module 12: Static testing in-class activity": "CEN3031 - Intro Software Engr|2026-04-07 17:00:00-04:00",
-  "Module 13: Use Case Activity": "CEN3031 - Intro Software Engr|2026-04-14 16:50:00-04:00",
-  "Module 15: Final Presentation": "CEN3031 - Intro Software Engr|2026-04-21 23:59:59-04:00",
-  "TG-Prelab": "PHY2049L - Lab for PHY 2049|2026-04-09 07:00:00-04:00"
-}
+{}
