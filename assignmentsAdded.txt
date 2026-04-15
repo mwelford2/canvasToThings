@@ -1,3 +1,4 @@
 {
-  "Homework 10": "MHF3202 - Sets & Logic|2026-04-17 23:59:59-04:00"
+  "Quiz 6": "PHY2049 - Physics With Calc 2|No due date",
+  "Quiz 10 (L27-28)": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-22 23:59:00-04:00"
 }
