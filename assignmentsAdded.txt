@@ -1,3 +1,4 @@
 {
-  "Practice Final Exam": "MAP2302 - Elem Diff Equations Spring 2026|2026-04-22 23:59:00-04:00"
+  "Makeup1": "MAP2302 - Elem Diff Equations Spring 2026|No due date",
+  "Makeup2": "MAP2302 - Elem Diff Equations Spring 2026|No due date"
 }
