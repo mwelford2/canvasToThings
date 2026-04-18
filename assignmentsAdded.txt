@@ -1,4 +1,1 @@
-{
-  "Makeup1": "MAP2302 - Elem Diff Equations Spring 2026|No due date",
-  "Makeup2": "MAP2302 - Elem Diff Equations Spring 2026|No due date"
-}
+{}
