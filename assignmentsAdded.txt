@@ -1,5 +1,4 @@
 {
-  "Exam 3": "MHF3202 - Sets & Logic|No due date",
-  "Exam 3 Corrections": "MHF3202 - Sets & Logic|2026-04-29 23:59:59-04:00",
-  "Final iClicker Score": "PHY2049 - Physics With Calc 2|No due date"
+  "Request for Exam 2 Makeup": "MAP2302 - Elem Diff Equations Spring 2026|No due date",
+  "Request for Exam 3 Makeup": "MAP2302 - Elem Diff Equations Spring 2026|No due date"
 }
