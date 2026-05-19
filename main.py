@@ -13,7 +13,7 @@ smtp_port = 465
 sender = os.getenv("SENDER_EMAIL")
 
 CANVAS_API_TOKEN = os.getenv("CANVAS_API_KEY")
-CANVAS_DOMAIN = "ufl.instructure.com"
+CANVAS_DOMAIN = os.getenv("CANVAS_DOMAIN")
 api_url = f"https://{CANVAS_DOMAIN}/api/v1/"
 
 THINGS_EMAIL = os.getenv("THINGS_EMAIL")
