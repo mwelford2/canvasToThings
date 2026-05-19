@@ -97,7 +97,9 @@ The repo includes a GitHub Actions workflow, so you can run this on a schedule w
 1. Fork the repository
 2. Go to your fork's **Settings → Secrets and variables → Actions**
 3. Add each of the five environment variables above as repository secrets
-4. The workflow will run on its configured schedule automatically
+4. The workflow will run on its configured schedule automatically (currently configured to run daily)
+
+Important note: GitHub Actions may charge you depending on the usage. If you are a student you can apply for a GitHub pro student account for free so you can run this daily free of charge.
 
 ---
 
