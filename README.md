@@ -30,31 +30,13 @@ cd canvasToThings
 pip install -r reqs.txt
 ```
 
-### 3. Set your Canvas domain
+### 3. Set environment variables
 
-The script is currently set to `ufl.instructure.com`. If you're at a different school, open `main.py` and update this line:
-
-```python
-CANVAS_DOMAIN = "ufl.instructure.com"
-```
-
-Replace it with your institution's Canvas domain (e.g. `canvas.harvard.edu`).
-
-### 4. Add your course IDs to `classIDs.txt`
-
-Each line should contain one Canvas course ID (a number). You can find a course's ID in the URL when you visit it on Canvas — it looks like `canvas.youruniversity.edu/courses/12345678`.
-
-```
-12345678
-87654321
-```
-
-### 5. Set environment variables
-
-The script reads credentials from environment variables. Set the following:
+The script reads your Canvas domain and credentials from environment variables. Set the following:
 
 | Variable | Description |
 |---|---|
+| `CANVAS_DOMAIN` | Your institution's Canvas domain, such as `canvas.harvard.edu` |
 | `CANVAS_API_KEY` | Your Canvas API token ([how to generate one](https://community.canvaslms.com/t5/Student-Guide/How-do-I-manage-API-access-tokens-as-a-student/ta-p/273)) |
 | `GMAIL_PASSWORD` | A Gmail [App Password](https://support.google.com/accounts/answer/185833) (not your regular Gmail password) |
 | `SENDER_EMAIL` | The Gmail address you're sending from |
@@ -63,13 +45,25 @@ The script reads credentials from environment variables. Set the following:
 On Mac/Linux you can export them in your shell:
 
 ```bash
+export CANVAS_DOMAIN="canvas.harvard.edu" <-- Example
 export CANVAS_API_KEY="your_canvas_token"
 export GMAIL_PASSWORD="your_app_password"
 export SENDER_EMAIL="you@gmail.com"
 export THINGS_EMAIL="your-things-address@things.email"
 ```
 
-### 6. Initialize the tracking files
+### 4. Add your course IDs to `classIDs.txt`
+
+This script requires a list of what classes you're in, this file keeps track of that and needs to be updated every semester (or whenever your classes change). 
+Each line should contain one Canvas course ID (a number). You can find a course's ID in the URL when you visit it on Canvas - it looks like `canvas.youruniversity.edu/courses/CLASS_ID`. For example, if your course URL is `canvas.harvard.edu/courses/193876`, the course's ID is `193876`.
+
+```text
+12345678
+87654321
+...
+```
+
+### 5. Initialize the tracking files
 
 The script uses a few text files to track state. Make sure these exist (they can be empty):
 
@@ -88,6 +82,7 @@ python main.py
 ```
 
 The script will:
+
 1. Fetch upcoming and future assignments from each course in `classIDs.txt`
 2. Skip any assignments already recorded in `assignments.txt`
 3. Email each new assignment to your Things inbox with its course name and due date
@@ -101,7 +96,7 @@ The repo includes a GitHub Actions workflow, so you can run this on a schedule w
 
 1. Fork the repository
 2. Go to your fork's **Settings → Secrets and variables → Actions**
-3. Add each of the four environment variables above as repository secrets
+3. Add each of the five environment variables above as repository secrets
 4. The workflow will run on its configured schedule automatically
 
 ---
