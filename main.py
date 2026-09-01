@@ -83,7 +83,15 @@ def get_assignments():
     for c in classes:
         req = requests.get(api_url+f"courses/{c}/assignments?bucket=future", headers=headers)
         req2 = requests.get(api_url+f"courses/{c}/assignments?bucket=upcoming", headers=headers)
-        all_ass = json.loads(req.text) + json.loads(req2.text) # join upcoming and future assignments in one dict
+        future = json.loads(req.text)
+        upcoming = json.loads(req2.text)
+        if not isinstance(future, list) or not isinstance(upcoming, list):
+            raise RuntimeError(
+                f"Unexpected Canvas API response for course {c}: "
+                f"future(status={req.status_code})={req.text!r} "
+                f"upcoming(status={req2.status_code})={req2.text!r}"
+            )
+        all_ass = future + upcoming # join upcoming and future assignments in one dict
         # all_ass = remove_duplicates(all_ass)
         for cur_ass in all_ass:
             # print(cur_ass['name'], cur_ass['due_at'], end='  UPDATED DATE: ')
