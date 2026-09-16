@@ -1,0 +1,21 @@
+name: Test Canvas Calendar Feed
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Canvas calendar
+        env:
+          CANVAS_CALENDAR_FEED: ${{ secrets.CANVAS_CALENDAR_FEED }}
+        run: |
+          curl --fail -sS \
+            "$CANVAS_CALENDAR_FEED" \
+            -o canvas.ics
+
+          echo "Downloaded Canvas calendar."
+          echo "Events found:"
+          grep -c "^BEGIN:VEVENT" canvas.ics
