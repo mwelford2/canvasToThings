@@ -1,0 +1,144 @@
+name: Extend Canvas API Token
+
+on:
+  workflow_dispatch:
+    inputs:
+      token_hint:
+        description: "Optional: Canvas token_hint if you have multiple active tokens"
+        required: false
+        type: string
+
+jobs:
+  extend-token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Find Canvas token
+        id: token
+        env:
+          CANVAS_API_KEY: ${{ secrets.CANVAS_API_KEY }}
+          TOKEN_HINT_INPUT: ${{ inputs.token_hint }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          CANVAS="https://ufl.instructure.com"
+
+          # Extra protection against the secret ever appearing in logs
+          echo "::add-mask::$CANVAS_API_KEY"
+
+          echo "Checking that CANVAS_API_KEY still works..."
+
+          curl --fail-with-body -sS \
+            -H "Authorization: Bearer $CANVAS_API_KEY" \
+            "$CANVAS/api/v1/users/self/profile" \
+            > /dev/null
+
+          echo "✓ Canvas API key is valid"
+
+          echo "Getting your manually-generated Canvas tokens..."
+
+          TOKENS=$(curl --fail-with-body -sS \
+            -H "Authorization: Bearer $CANVAS_API_KEY" \
+            "$CANVAS/api/v1/users/self/user_generated_tokens?per_page=100")
+
+          # If a token_hint was supplied manually, use that.
+          if [[ -n "${TOKEN_HINT_INPUT:-}" ]]; then
+
+            COUNT=$(echo "$TOKENS" | jq \
+              --arg hint "$TOKEN_HINT_INPUT" \
+              '[.[] | select(.token_hint == $hint)] | length')
+
+            if [[ "$COUNT" -ne 1 ]]; then
+              echo "ERROR: No token matching token_hint '$TOKEN_HINT_INPUT' was found."
+              exit 1
+            fi
+
+            TOKEN_HINT="$TOKEN_HINT_INPUT"
+
+          else
+            # Otherwise, automatically use it if there is exactly
+            # one active manually-generated token.
+            ACTIVE_COUNT=$(echo "$TOKENS" | jq \
+              '[.[] | select(.workflow_state == "active")] | length')
+
+            if [[ "$ACTIVE_COUNT" -eq 1 ]]; then
+
+              TOKEN_HINT=$(echo "$TOKENS" | jq -r \
+                '.[] | select(.workflow_state == "active") | .token_hint')
+
+            else
+              echo ""
+              echo "You have $ACTIVE_COUNT active Canvas tokens."
+              echo "I won't guess which one should be modified."
+              echo ""
+              echo "Active tokens:"
+              echo ""
+
+              echo "$TOKENS" | jq -r '
+                .[]
+                | select(.workflow_state == "active")
+                | "Hint: \(.token_hint) | Purpose: \(.purpose // "none") | Expires: \(.expires_at // "none")"
+              '
+
+              echo ""
+              echo "Re-run this workflow and enter the correct Hint"
+              echo "in the token_hint box."
+              exit 1
+            fi
+          fi
+
+          PURPOSE=$(echo "$TOKENS" | jq -r \
+            --arg hint "$TOKEN_HINT" \
+            '.[] | select(.token_hint == $hint) | (.purpose // "none")')
+
+          OLD_EXPIRATION=$(echo "$TOKENS" | jq -r \
+            --arg hint "$TOKEN_HINT" \
+            '.[] | select(.token_hint == $hint) | (.expires_at // "none")')
+
+          echo "Selected token:"
+          echo "  Hint: $TOKEN_HINT"
+          echo "  Purpose: $PURPOSE"
+          echo "  Current expiration: $OLD_EXPIRATION"
+
+          echo "token_hint=$TOKEN_HINT" >> "$GITHUB_OUTPUT"
+
+      - name: Extend token expiration
+        env:
+          CANVAS_API_KEY: ${{ secrets.CANVAS_API_KEY }}
+          TOKEN_HINT: ${{ steps.token.outputs.token_hint }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          CANVAS="https://ufl.instructure.com"
+
+          echo "::add-mask::$CANVAS_API_KEY"
+
+          # Use 119 rather than exactly 120 days to avoid
+          # boundary/timing issues with Canvas's 120-day limit.
+          NEW_EXPIRATION=$(date -u -d "+119 days" "+%Y-%m-%dT%H:%M:%SZ")
+
+          echo "Extending token to:"
+          echo "$NEW_EXPIRATION"
+
+          RESPONSE=$(curl --fail-with-body -sS -X PUT \
+            -H "Authorization: Bearer $CANVAS_API_KEY" \
+            --data-urlencode "token[expires_at]=$NEW_EXPIRATION" \
+            "$CANVAS/api/v1/users/self/tokens/$TOKEN_HINT")
+
+          echo ""
+          echo "Canvas response:"
+
+          echo "$RESPONSE" | jq '{
+            id,
+            token_hint,
+            purpose,
+            expires_at,
+            workflow_state
+          }'
+
+          echo ""
+          echo "✓ Finished."
+          echo "The token itself was NOT regenerated."
+          echo "Your CANVAS_API_KEY GitHub secret remains unchanged."
