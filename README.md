@@ -1,15 +1,17 @@
 # canvasToThings
 
-Automatically syncs your upcoming Canvas assignments into [Things 3](https://culturedcode.com/things/) by sending them via email using Things' built-in Mail to Things feature.
+Automatically syncs upcoming Canvas assignments into [Things 3](https://culturedcode.com/things/) by sending them via email using Things' built-in Mail to Things feature.
 
-Each time the script runs, it checks your Canvas courses for upcoming and future assignments, and for any that haven't been added before, it fires off an email to your Things inbox with the assignment name, course, and due date. Already-processed assignments are tracked locally so nothing gets added twice.
+This version uses Canvas' private **Calendar Feed (ICS)** instead of the Canvas REST API. That avoids expiring student API tokens and does not require course IDs.
+
+Each time the script runs, it downloads your Canvas calendar feed, finds future assignment events, and emails any assignment that has not been processed before to your Things inbox. Processed assignment IDs are stored locally so nothing gets added twice.
 
 ---
 
 ## Prerequisites
 
 - Python 3.9+
-- A Canvas account with API access
+- A Canvas account with access to the Calendar Feed
 - Things 3 (Mac/iPhone/iPad) with [Mail to Things](https://culturedcode.com/things/support/articles/2908262/) enabled
 - A Gmail account to send emails from (with an [App Password](https://support.google.com/accounts/answer/185833) set up)
 
@@ -30,48 +32,47 @@ cd canvasToThings
 pip install -r reqs.txt
 ```
 
-### 3. Set environment variables
+### 3. Copy your Canvas Calendar Feed URL
 
-The script reads your Canvas domain and credentials from environment variables. Set the following:
+In Canvas:
+
+1. Open **Calendar**
+2. Click **Calendar Feed**
+3. Copy the private ICS URL
+
+Treat this URL like a password. Anyone with the URL may be able to read your Canvas calendar feed.
+
+### 4. Set environment variables
+
+The script reads these environment variables:
 
 | Variable | Description |
 |---|---|
-| `CANVAS_DOMAIN` | Your institution's Canvas domain, such as `canvas.harvard.edu` |
-| `CANVAS_API_KEY` | Your Canvas API token ([how to generate one](https://community.canvaslms.com/t5/Student-Guide/How-do-I-manage-API-access-tokens-as-a-student/ta-p/273)) |
-| `GMAIL_PASSWORD` | A Gmail [App Password](https://support.google.com/accounts/answer/185833) (not your regular Gmail password) |
+| `CANVAS_CALENDAR_FEED` | Your private Canvas Calendar Feed / ICS URL |
+| `GMAIL_PASSWORD` | A Gmail [App Password](https://support.google.com/accounts/answer/185833) (not your normal Gmail password) |
 | `SENDER_EMAIL` | The Gmail address you're sending from |
-| `THINGS_EMAIL` | Your Things Mail to Things address (found in Things 3 → Settings → Mail to Things) |
+| `THINGS_EMAIL` | Your Things Mail to Things address |
 
-On Mac/Linux you can export them in your shell:
+On Mac/Linux:
 
 ```bash
-export CANVAS_DOMAIN="canvas.harvard.edu" <-- Example
-export CANVAS_API_KEY="your_canvas_token"
+export CANVAS_CALENDAR_FEED="https://your-canvas-instance/feeds/calendars/...ics"
 export GMAIL_PASSWORD="your_app_password"
 export SENDER_EMAIL="you@gmail.com"
 export THINGS_EMAIL="your-things-address@things.email"
 ```
 
-### 4. Add your course IDs to `classIDs.txt`
-
-This script requires a list of what classes you're in, this file keeps track of that and needs to be updated every semester (or whenever your classes change). 
-Each line should contain one Canvas course ID (a number). You can find a course's ID in the URL when you visit it on Canvas - it looks like `canvas.youruniversity.edu/courses/CLASS_ID`. For example, if your course URL is `canvas.harvard.edu/courses/193876`, the course's ID is `193876`.
-
-```text
-12345678
-87654321
-...
-```
+You no longer need `CANVAS_API_KEY`, `CANVAS_DOMAIN`, or `classIDs.txt` for the main sync.
 
 ### 5. Initialize the tracking files
-
-The script uses a few text files to track state. Make sure these exist (they can be empty):
 
 ```bash
 touch assignments.txt assignmentsAdded.txt
 echo "0" > totalRuns.txt
 echo "0" > weekRuns.txt
 ```
+
+The calendar-feed version keeps using Canvas assignment IDs when possible, so an existing `assignments.txt` from the old REST API version remains compatible and should prevent previously processed assignments from being re-added.
 
 ---
 
@@ -83,23 +84,41 @@ python main.py
 
 The script will:
 
-1. Fetch upcoming and future assignments from each course in `classIDs.txt`
-2. Skip any assignments already recorded in `assignments.txt`
-3. Email each new assignment to your Things inbox with its course name and due date
-4. Send you a summary email listing everything that was added
+1. Download your Canvas Calendar Feed
+2. Ignore ordinary calendar events and keep assignment events
+3. Ignore assignments whose due date is already in the past
+4. Skip assignments already recorded in `assignments.txt`
+5. Email each new assignment to your Things inbox with its course code and due date
+6. Send a summary email listing everything that was added
+
+Canvas includes the course code in calendar summaries, for example:
+
+```text
+Homework 4 [EEL3701C]
+```
+
+The script sends `Homework 4` as the Things task title and `EEL3701C` in the task body.
 
 ---
 
 ## Automating with GitHub Actions
 
-The repo includes a GitHub Actions workflow, so you can run this on a schedule without keeping your computer on. To use it:
+The repo includes a daily GitHub Actions workflow.
 
-1. Fork the repository
-2. Go to your fork's **Settings → Secrets and variables → Actions**
-3. Add each of the five environment variables above as repository secrets
-4. The workflow will run on its configured schedule automatically (currently configured to run daily)
+Go to:
 
-Important note: GitHub Actions may charge you depending on the usage. If you are a student you can apply for a GitHub pro student account for free so you can run this daily free of charge.
+**Repository → Settings → Secrets and variables → Actions**
+
+and add these repository secrets:
+
+- `CANVAS_CALENDAR_FEED`
+- `GMAIL_PASSWORD`
+- `SENDER_EMAIL`
+- `THINGS_EMAIL`
+
+The old `CANVAS_API_KEY` secret is not used by the calendar-feed workflow.
+
+The workflow runs automatically once per day and can also be triggered manually from the **Actions** tab.
 
 ---
 
@@ -107,11 +126,11 @@ Important note: GitHub Actions may charge you depending on the usage. If you are
 
 | File | Purpose |
 |---|---|
-| `main.py` | Main script |
-| `Email.py` | Email helper |
-| `reqs.txt` | Python dependencies |
-| `classIDs.txt` | Your Canvas course IDs (you edit this) |
-| `assignments.txt` | Tracks which assignment IDs have been processed |
+| `main.py` | Downloads/parses the Canvas ICS feed and sends new assignments to Things |
+| `reqs.txt` | Python dependencies (`requests`, `icalendar`) |
+| `assignments.txt` | Tracks processed Canvas assignment IDs |
 | `assignmentsAdded.txt` | JSON log of the most recent batch added |
-| `output.log` / `backup.log` | Run logs |
 | `weekRuns.txt` / `totalRuns.txt` | Run counters |
+| `.github/workflows/main.yml` | Scheduled GitHub Actions sync |
+
+`classIDs.txt` is left in the repository for compatibility/history but is no longer used by `main.py`.
