@@ -160,7 +160,7 @@ def get_assignments():
 
         due_text = str(due_at)
         assignments_added[assignment_name] = f"{class_name}|{due_text}"
-        send_email(assignment_name, class_name + "\n" + due_text, THINGS_EMAIL)
+        send_email(assignment_name, f"Course={class_name}\nDue date={due_text}", THINGS_EMAIL)
         names_added.append(f"{assignment_name}|{class_name}|{due_text}")
         num_added += 1
 
