@@ -1,4 +1,1 @@
-{
-  "Public Voting Final Project (1 student)": "SIGCSE TS 2025 Edugator|2026-11-03",
-  "Programming Quiz 1 - C++  (1 student)": "SIGCSE TS 2025 Edugator|2026-11-05"
-}
+{}
